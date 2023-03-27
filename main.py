@@ -56,14 +56,14 @@ class Application(tk.Tk):
         self.grafFrame.pack(fill = 'x')
         tk.Label(self.grafFrame, text='Titulek').grid(row=0, column=0)
         self.titleEntry = MyEntry(self.grafFrame)
-        self.titleEntry.grid(row=0,column=1)
+        self.titleEntry.grid(row=0,column=1, columnspan=2)
 
         tk.Label(self.grafFrame, text='Popisek X').grid(row=1, column=0)
         self.xlabelEntry = MyEntry(self.grafFrame)
-        self.xlabelEntry.grid(row=1,column=1)
+        self.xlabelEntry.grid(row=1,column=1, columnspan=2)
         tk.Label(self.grafFrame, text='Popisek Y').grid(row=2, column=0)
         self.ylabelEntry = MyEntry(self.grafFrame)
-        self.ylabelEntry.grid(row=2,column=1)
+        self.ylabelEntry.grid(row=2,column=1, columnspan=2)
         tk.Label(self.grafFrame, text='Mřížka').grid(row=3, column=0)
 
         self.gridVar = tk.BooleanVar(value=False)
@@ -75,6 +75,16 @@ class Application(tk.Tk):
         self.lineVar = tk.StringVar(value= 'none')
         self.lineOpt = tk.OptionMenu(self.grafFrame, self.lineVar, 'none', '-', '--', ':', '-.')
         self.lineOpt.grid(row=4, column=1, sticky= 'w')
+
+
+        self.colorVar = tk.StringVar(value= 'black')
+        self.coloropt = tk.OptionMenu(self.grafFrame, self.colorVar, 'none', 'red', 'blue', 'teal', 'green')
+        self.coloropt.grid(row=4, column=2, sticky= 'e')
+
+
+        tk.Label(self.grafFrame, text='Marker').grid(row=5, column=0)
+        self.MarkerVar = tk.StringVar(value= 'none')
+        tk.OptionMenu(self.grafFrame, self.MarkerVar, 'none', *tuple(',.oxX+*P123<>v^D')).grid(row=5, column=1, sticky= 'w')
 
 
         self.btn = tk.Button(self, text="Vykreslit", command=self.plotgraph).pack(anchor='w')
@@ -107,7 +117,7 @@ class Application(tk.Tk):
                     x.append(x1)
                     y.append(y1)
 
-        pl.plot(x,y, 'o', linestyle=self.lineVar.get())
+        pl.plot(x,y, 'o', linestyle=self.lineVar.get(), color=self.colorVar.get(), marker= self.MarkerVar.get(),markeredgecolor=self.mcolorVar.get())
         pl.title(self.titleEntry.value)
         pl.xlabel(self.xlabelEntry.value)
         pl.ylabel(self.ylabelEntry.value)
